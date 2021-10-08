@@ -23,7 +23,7 @@ def mp3(URL:str):
 
     return "Conversion to MP3 done"
 
-def mp4(URL):
+def mp4(URL:str):
     '''Fonction de téléchargement de la vidéo en MP4'''
 
     assert URL != ""
