@@ -4,7 +4,7 @@ from pytube import YouTube
 
 
 def mp3(URL: str) -> str:
-    '''Fonction de téléchargement de la vidéo en MP3'''
+    """Fonction de téléchargement de la vidéo en MP3"""
 
     assert URL != ""
 
