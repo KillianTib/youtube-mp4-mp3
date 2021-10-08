@@ -51,7 +51,7 @@ saisie = Entry(cadre2)
 URL = saisie.get()
 saisie.pack(padx=5, pady=5)
 
-boutonMP4 = Button(cadre3, text="MP4", command=lambda: mp4(saisie.get()))
+boutonMP4 = Button(cadre3, text="MP4", command=lambda: mp4(saisie.get(), path))
 boutonMP4.config(bg="#45403d", fg="white")
 boutonMP4.pack()
 

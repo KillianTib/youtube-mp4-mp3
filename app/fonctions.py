@@ -1,4 +1,5 @@
 import os
+from tkinter import messagebox
 
 from pytube import YouTube
 
@@ -25,8 +26,8 @@ def mp3(URL: str) -> str:
     return "Conversion to MP3 done"
 
 
-def mp4(URL: str) -> str:
-    '''Fonction de téléchargement de la vidéo en MP4'''
+def mp4(URL: str, directory: str) -> str:
+    """Fonction de téléchargement de la vidéo en MP4"""
 
     assert URL != ""
 
@@ -35,6 +36,7 @@ def mp4(URL: str) -> str:
     video = YouTube(URL)
     stream = video.streams.get_highest_resolution()
 
-    stream.download(output_path='C:\Bureau\youtube\download')
+    stream.download(output_path=directory)
 
+    messagebox.showinfo("Pytube", "Téléchargement réussi")
     return "Conversion to MP4 done"
