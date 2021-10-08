@@ -1,8 +1,6 @@
-from pytube import YouTube
 from tkinter import *
-import os
+
 from fonctions import mp3, mp4
-from tkinter import ttk
 
 fenetre1 = Tk()
 fenetre1.title("Télécharger une vidéo MP3 / MP4")
@@ -11,11 +9,11 @@ fenetre1.iconbitmap("assets/YouTube.ico")
 fenetre1.config(bg="#6e0309")
 
 fenetre1.geometry("640x300")
-f1 =Frame(fenetre1,bd=5)
+f1 = Frame(fenetre1, bd=5)
 f1.config(bg="#787d79")
 f1.pack()
 
-cadre1 = Frame(f1,  bd=5)
+cadre1 = Frame(f1, bd=5)
 cadre1.config(bg="#787d79")
 cadre1.pack()
 
@@ -31,7 +29,6 @@ texteTelechargement = Label(
     cadre1, text="Collez le lien de la vidéo puis choisissez le mode de téléchargement")
 texteTelechargement.config(bg="#45403d", fg="white")
 texteTelechargement.pack()
-
 
 maLegende = Label(cadre2, text='URL : ')
 maLegende.config(bg="#45403d", fg="white")
