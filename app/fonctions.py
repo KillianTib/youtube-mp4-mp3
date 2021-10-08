@@ -2,7 +2,7 @@ from pytube import YouTube
 from tkinter import *
 import os 
 
-def mp3(URL:str):
+def mp3(URL : str) -> str:
     '''Fonction de téléchargement de la vidéo en MP3'''
 
     assert URL != ""
@@ -23,7 +23,7 @@ def mp3(URL:str):
 
     return "Conversion to MP3 done"
 
-def mp4(URL):
+def mp4(URL : str ) -> str:
     '''Fonction de téléchargement de la vidéo en MP4'''
 
     assert URL != ""

@@ -2,34 +2,58 @@ from pytube import YouTube
 from tkinter import *
 import os
 from fonctions import mp3, mp4
+from tkinter import ttk
 
-fenetre = Tk()
-fenetre.title("Télécharger une vidéo MP3 / MP4")
-fenetre.iconbitmap("assets/YouTube.ico")
+fenetre1 = Tk()
+fenetre1.title("Télécharger une vidéo MP3 / MP4")
+fenetre1.iconbitmap("assets/YouTube.ico")
 
-fenetre.config(bg = "RED")
+fenetre1.config(bg="#6e0309")
 
-fenetre.geometry("640x300")
+fenetre1.geometry("640x300")
+f1 =Frame(fenetre1,bd=5)
+f1.config(bg="#787d79")
+f1.pack()
 
-cadre1 = Frame(fenetre)
+cadre1 = Frame(f1,  bd=5)
+cadre1.config(bg="#787d79")
 cadre1.pack()
-cadre1.config(bg="#696969",)
 
-texte1 = Label (cadre1, text = "Collez le lien de la vidéo puis choisissez le mode de téléchargement")
-texte1.pack()
+cadre2 = Frame(f1, bd=5)
+cadre2.config(bg="#787d79")
+cadre2.pack()
 
-defaultPath = Label(cadre1, text="Le fichier sera enregistré dans \"C:\Bureau\YouTube\Download\"")
+cadre3 = Frame(f1, bd=5)
+cadre3.config(bg="#787d79")
+cadre3.pack()
+
+texteTelechargement = Label(
+    cadre1, text="Collez le lien de la vidéo puis choisissez le mode de téléchargement")
+texteTelechargement.config(bg="#45403d", fg="white")
+texteTelechargement.pack()
+
+
+maLegende = Label(cadre2, text='URL : ')
+maLegende.config(bg="#45403d", fg="white")
+maLegende.pack(padx=5, pady=5, side=LEFT)
+
+saisie = Entry(cadre2)
+URL = saisie.get()
+saisie.pack(padx=5, pady=5)
+
+boutonMP4 = Button(cadre3, text="MP4", command=lambda: mp4(saisie.get()))
+boutonMP4.config(bg="#45403d", fg="white")
+boutonMP4.pack()
+
+boutonMP3 = Button(cadre3, text="MP3", command=lambda: mp3(saisie.get()))
+boutonMP3.config(bg="#45403d", fg="white")
+boutonMP3.pack()
+
+defaultPath = Label(
+    cadre3, text="Le fichier sera enregistré dans \"C:\Bureau\YouTube\Download\"")
+defaultPath.config(bg="#45403d", fg="white")
 defaultPath.pack()
 
-saisie = Entry (cadre1)
-URL = saisie.get()
-saisie.pack()
-
-bouton1 = Button (cadre1, text = "MP4",command = lambda: mp4(saisie.get()))
-bouton2 = Button (cadre1, text = "MP3",command = lambda: mp3(saisie.get()))
-bouton1.pack()
-bouton2.pack()
-
-fenetre.mainloop()
+f1.mainloop()
 
 print(f'Lien de la vidéo : {URL}')
