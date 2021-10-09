@@ -3,10 +3,13 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.font import BOLD
 
-from fonctions import mp3, mp4
+from pytube.__main__ import YouTube
+
+from fonctions import mp3, mp4, VIDEO
 from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME
 
 path = str(Path.home() / "Downloads")
+
 
 
 def edit_path():
@@ -54,6 +57,9 @@ saisie = Entry(cadre2)
 URL = saisie.get()
 saisie.pack(padx=5, pady=5)
 
+titre = VIDEO.title
+
+print(titre)
 boutonMP4 = Button(cadre3, text="MP4", command=lambda: mp4(saisie.get(), path))
 boutonMP4.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
 boutonMP4.pack()
