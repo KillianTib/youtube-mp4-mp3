@@ -2,6 +2,7 @@ import os
 from tkinter import messagebox
 
 from pytube import YouTube
+from settings import APP_NAME
 
 
 def mp3(URL: str) -> str:
@@ -17,11 +18,13 @@ def mp3(URL: str) -> str:
     # download la video
     out_file = video.download(output_path='C:\Bureau\YouTube\Download')
 
-    # sauvgarde la vidéo
+    # sauvegarde la vidéo
     base, ext = os.path.splitext(out_file)
     base = base.replace(" ", "_")
     new_file = base + '.mp3'
     os.rename(out_file, new_file)
+
+    messagebox.showinfo(APP_NAME, "Téléchargement en MP3 réussi")
 
     return "Conversion to MP3 done"
 
@@ -38,5 +41,5 @@ def mp4(URL: str, directory: str) -> str:
 
     stream.download(output_path=directory)
 
-    messagebox.showinfo("Pytube", "Téléchargement réussi")
+    messagebox.showinfo(APP_NAME, "Téléchargement en MP4 réussi")
     return "Conversion to MP4 done"
