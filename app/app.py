@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import filedialog
 
 from fonctions import mp3, mp4
-from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS
+from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME
 
 path = str(Path.home() / "Downloads")
 
@@ -17,7 +17,7 @@ def edit_path():
 
 
 fenetre1 = Tk()
-fenetre1.title("Télécharger une vidéo MP3 / MP4")
+fenetre1.title(APP_NAME)
 fenetre1.iconbitmap("assets/YouTube.ico")
 
 fenetre1.config(bg = COLOR_BG_FENETRE)
