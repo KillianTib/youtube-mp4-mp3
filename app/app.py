@@ -1,6 +1,7 @@
 from pathlib import Path
 from tkinter import *
 from tkinter import filedialog
+from tkinter.font import BOLD
 
 from fonctions import mp3, mp4
 from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS
@@ -23,9 +24,10 @@ fenetre1.iconbitmap("assets/YouTube.ico")
 fenetre1.config(bg = COLOR_BG_FENETRE)
 
 fenetre1.geometry("640x300")
+fenetre1.resizable(width=0, height=0)
 f1 = Frame(fenetre1, bd = 5)
 f1.config(bg = COLOR_BG_CADRE)
-f1.pack()
+f1.pack(pady=25,padx=25)
 
 cadre1 = Frame(f1, bd = 5)
 cadre1.config(bg = COLOR_BG_CADRE)
@@ -54,15 +56,16 @@ saisie.pack(padx=5, pady=5)
 
 boutonMP4 = Button(cadre3, text="MP4", command=lambda: mp4(saisie.get(), path))
 boutonMP4.config(bg=COLOR_BG_BOUTONS, fg = COLOR_TEXT_BOUTONS)
-boutonMP4.pack()
+boutonMP4.pack(pady=5)
 
 boutonMP3 = Button(cadre3, text="MP3", command=lambda: mp3(saisie.get()))
 boutonMP3.config(bg=COLOR_BG_BOUTONS, fg = COLOR_TEXT_BOUTONS)
-boutonMP3.pack()
+boutonMP3.pack(pady=5)
+
 var = StringVar()
 defaultPath = Label(cadre3, textvariable=var)
 defaultPath.config(bg=COLOR_BG_BOUTONS, fg = COLOR_TEXT_BOUTONS)
-defaultPath.pack()
+defaultPath.pack(pady=5)
 var.set(f"Le fichier sera enregistré dans {path}")
 
 buttonEditPathFile = Button(cadre3, text="edit", command=edit_path, bg = COLOR_BG_BOUTONS, fg ="white" )
