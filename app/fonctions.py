@@ -5,6 +5,7 @@ from pytube import YouTube
 from settings import APP_NAME
 
 
+
 def mp3(URL: str) -> str:
     """Fonction de téléchargement de la vidéo en MP3"""
 
