@@ -68,7 +68,7 @@ defaultPath.config(bg=COLOR_BG_BOUTONS, fg = COLOR_TEXT_BOUTONS)
 defaultPath.pack(pady=5)
 var.set(f"Le fichier sera enregistré dans {path}")
 
-buttonEditPathFile = Button(cadre3, text="edit", command=edit_path, bg = COLOR_BG_BOUTONS, fg ="white" )
+buttonEditPathFile = Button(cadre3, text="Changer l'emplacement du fichier", command=edit_path, bg = COLOR_BG_BOUTONS, fg ="white" )
 boutonMP3.config(bg=COLOR_BG_BOUTONS, fg = COLOR_TEXT_BOUTONS)
 buttonEditPathFile.pack()
 
