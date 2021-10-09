@@ -100,4 +100,3 @@ buttonEditPathFile.pack()
 
 f1.mainloop()
 
-print(f'Lien de la vidéo : {URL}')
