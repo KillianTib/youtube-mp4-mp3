@@ -1,9 +1,9 @@
+import re
 from pathlib import Path
 from tkinter import *
 from tkinter import filedialog, messagebox
-import re
 
-from pytube import YouTube
+from pytube import YouTube, exceptions
 
 from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME
 
@@ -18,34 +18,57 @@ def edit_path():
         var.set(f"Le fichier sera enregistré dans {path}")
 
 
+def update_preview(*args, **kwargs):
+    url = saisieVar.get()
+
+    try:
+        yt = YouTube(url)
+        yt.title
+    except (exceptions.RegexMatchError, exceptions.VideoUnavailable):
+        ButtonDownload['state'] = "disable"
+        for widget in labelFrameQualities.winfo_children():
+            widget.destroy()
+        return
+
+    ButtonDownload['state'] = "normal"
+    print(f"url valide video : {yt.title}")
+
+    varRadioButton.set(0)  # default value
+    for i in yt.streams.filter(adaptive=True):
+        if i.mime_type == "audio/webm":
+            b = Radiobutton(labelFrameQualities, variable=varRadioButton, text=f"{i.type} {i.abr}", value=i.itag)
+            b.pack(side='left', expand=1)
+        if i.mime_type == "video/webm":
+            b = Radiobutton(labelFrameQualities, variable=varRadioButton, text=f"{i.type} {i.resolution} {i.fps}fps",
+                            value=i.itag)
+            b.pack(side='left', expand=1)
+
+
 def download():
     url = saisie.get()
 
     if url == "":
         messagebox.showwarning("Erreur", "le champ url est requis")
     else:
-        # ['mp3', '1080p', '702p']
-        quality = varGr.get()
-        print(quality)
+        itag = varRadioButton.get()
 
         yt = YouTube(url)
+        stream = yt.streams.get_by_itag(itag)
 
-        print(yt.streams.filter(res=quality))
-
-        stream = yt.streams.filter(res=quality).first()  # on choisie la qualité qui correspond
-
-        extensions = {"1080p": "mp4", "720p": "mp4"}
-        title = re.sub(r"[^a-zA-Z0-9]+", ' ', yt.title)
-        stream.download(output_path=path, filename=f"{title}{quality}.{extensions[quality]}")
+        extensions = {"video": "mp4", "audio": "mp3"}
+        title = re.sub(r"[^a-zA-Z0-9]+", '_', yt.title)  # on supprime les caractere speciaux
+        stream.download(output_path=path,
+                        filename=f"{title}_{stream.resolution if stream.abr is None else stream.abr}.{extensions[stream.type]}")
+        messagebox.showinfo(APP_NAME, "Téléchargement en réussi")
 
 
 fenetre1 = Tk()
 fenetre1.title(APP_NAME)
-fenetre1.iconbitmap("assets/YouTube.ico")
+# fenetre1.iconbitmap("assets/YouTube.ico")
 
 fenetre1.config(bg=COLOR_BG_FENETRE)
 
-fenetre1.geometry("650x570")
+# fenetre1.geometry("650x570")
 fenetre1.resizable(width=0, height=0)
 f1 = Frame(fenetre1, bd=5)
 f1.config(bg="pink")
@@ -72,21 +95,18 @@ maLegende = Label(cadre2, text='URL : ')
 maLegende.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
 maLegende.pack(padx=5, pady=5, side=LEFT)
 
-saisie = Entry(cadre2)
+saisieVar = StringVar()
+saisie = Entry(cadre2, textvariable=saisieVar)
+saisieVar.trace("w", update_preview)
 saisie.pack(padx=5, pady=5)
 
 labelFrameQualities = LabelFrame(cadre3, text="Choisir la qualité", padx=20, pady=20)
 labelFrameQualities.pack(fill="both", expand="yes")
 
-vals = ['mp3', '1080p', '702p']
-etiqs = ['mp3', '1080p', '702p']
-varGr = StringVar()
-varGr.set(vals[1])  # default value
-for i in range(3):
-    b = Radiobutton(labelFrameQualities, variable=varGr, text=etiqs[i], value=vals[i])
-    b.pack(side='left', expand=1)
+varRadioButton = StringVar()
 
-ButtonDownload = Button(cadre3, text="Télécharger !!!", command=download).pack()
+ButtonDownload = Button(cadre3, text="Télécharger !!!", state="disable", command=download)
+ButtonDownload.pack()
 
 var = StringVar()
 defaultPath = Label(cadre3, textvariable=var)
@@ -99,5 +119,3 @@ buttonEditPathFile = Button(cadre3, text="Changer l'emplacement du fichier", com
 buttonEditPathFile.pack()
 
 f1.mainloop()
-
-print(f'Lien de la vidéo : {URL}')
