@@ -9,7 +9,7 @@ from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_T
 
 path = str(Path.home() / "Downloads")
 
-
+#definir là où la vidéo sera enregistrer
 def edit_path():
     global path
     new_path = filedialog.askdirectory(initialdir=path)
@@ -17,7 +17,7 @@ def edit_path():
         path = new_path
         var.set(f"Le fichier sera enregistré dans {path}")
 
-
+#download 
 def download():
     url = saisie.get()
 
@@ -38,7 +38,7 @@ def download():
         title = re.sub(r"[^a-zA-Z0-9]+", ' ', yt.title)
         stream.download(output_path=path, filename=f"{title}{quality}.{extensions[quality]}")
 
-
+#fenetre
 fenetre1 = Tk()
 fenetre1.title(APP_NAME)
 fenetre1.iconbitmap("assets/YouTube.ico")
@@ -75,6 +75,9 @@ maLegende.pack(padx=5, pady=5, side=LEFT)
 saisie = Entry(cadre2)
 saisie.pack(padx=5, pady=5)
 
+
+
+
 labelFrameQualities = LabelFrame(cadre3, text="Choisir la qualité", padx=20, pady=20)
 labelFrameQualities.pack(fill="both", expand="yes")
 
@@ -93,6 +96,7 @@ defaultPath = Label(cadre3, textvariable=var)
 defaultPath.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
 defaultPath.pack(pady=5)
 var.set(f"Le fichier sera enregistré dans {path}")
+
 
 buttonEditPathFile = Button(cadre3, text="Changer l'emplacement du fichier", command=edit_path,
                             bg=COLOR_BG_BOUTONS, fg="white")
