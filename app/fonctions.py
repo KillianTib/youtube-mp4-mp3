@@ -51,5 +51,3 @@ def mp4(URL: str, directory: str) -> str:
     messagebox.showinfo(APP_NAME, "Téléchargement en MP4 réussi")
     return "Conversion to MP4 done"
 
-
-print(titre(URL_TEST))

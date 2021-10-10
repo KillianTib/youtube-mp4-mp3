@@ -4,8 +4,8 @@ from tkinter import filedialog, messagebox
 import re
 
 from pytube import YouTube
-
-from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME
+from fonctions import titre
+from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME, URL_TEST
 
 path = str(Path.home() / "Downloads")
 
@@ -101,6 +101,12 @@ var.set(f"Le fichier sera enregistré dans {path}")
 buttonEditPathFile = Button(cadre3, text="Changer l'emplacement du fichier", command=edit_path,
                             bg=COLOR_BG_BOUTONS, fg="white")
 buttonEditPathFile.pack()
+
+
+"""en dev"""
+#name = titre (URL_TEST)
+#titre = Label (cadre3, textvariable = name)
+#titre.pack()
 
 f1.mainloop()
 
