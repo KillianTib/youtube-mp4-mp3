@@ -1,10 +1,16 @@
 import os
 from tkinter import messagebox
+from tkinter.constants import Y
 
 from pytube import YouTube
-from settings import APP_NAME
+from settings import APP_NAME, URL_TEST
 
-
+def titre(URL : str)-> str:
+    """Fonction qui recupère le titre de la vidéo"""
+    assert URL!= ""
+    yt = YouTube(URL)
+    titre = yt.title
+    return titre
 
 def mp3(URL: str) -> str:
     """Fonction de téléchargement de la vidéo en MP3"""
@@ -44,3 +50,4 @@ def mp4(URL: str, directory: str) -> str:
 
     messagebox.showinfo(APP_NAME, "Téléchargement en MP4 réussi")
     return "Conversion to MP4 done"
+
