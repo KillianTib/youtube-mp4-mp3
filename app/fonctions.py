@@ -7,7 +7,9 @@ from settings import APP_NAME, URL_TEST
 
 def titre(URL : str)-> str:
     """Fonction qui recupère le titre de la vidéo"""
-    assert URL!= ""
+
+    assert URL !=  ""
+    
     yt = YouTube(URL)
     titre = yt.title
     return titre
