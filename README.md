@@ -22,7 +22,7 @@ Pour **contribuer au projet** vous pouvez **fork le repository** puis faire une 
 
 ## 🧠 Contributeurs Principaux
 
-- [**Keegik**](https://github.com/KillianTib) - Créateur
+- [**Keegik**](https://github.com/KillianTib) - Développeur
 
 - [**JulesGrd**](https://github.com/JulesGrd) - Développeur
 
