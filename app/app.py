@@ -3,10 +3,10 @@ from pathlib import Path
 from tkinter import *
 from tkinter import filedialog, messagebox
 
-
 from pytube import YouTube
 from fonctions import titre
 from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME, URL_TEST
+
 
 path = str(Path.home() / "Downloads")
 
@@ -65,11 +65,11 @@ def download():
 #fenetre
 fenetre1 = Tk()
 fenetre1.title(APP_NAME)
-# fenetre1.iconbitmap("assets/YouTube.ico")
+fenetre1.iconbitmap("assets/YouTube.ico")
 
 fenetre1.config(bg=COLOR_BG_FENETRE)
 
-# fenetre1.geometry("650x570")
+#fenetre1.geometry("650x300")
 fenetre1.resizable(width=0, height=0)
 f1 = Frame(fenetre1, bd=5)
 f1.config(bg="pink")
