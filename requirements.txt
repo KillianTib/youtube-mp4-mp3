@@ -1,1 +1,2 @@
-pytube
+pytube~=11.0.1
+pillow

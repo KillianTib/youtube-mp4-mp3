@@ -1,11 +1,13 @@
-import re
+import io
+import urllib.request
 from pathlib import Path
 from tkinter import *
 from tkinter import filedialog, messagebox
 
+from PIL import Image, ImageTk
 from pytube import YouTube, exceptions
-# from fonctions import titre
-from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME, URL_TEST
+
+from settings import COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME
 
 path = str(Path.home() / "Downloads")
 
@@ -16,17 +18,22 @@ def edit_path():
     new_path = filedialog.askdirectory(initialdir=path)
     if new_path != "":
         path = new_path
-        var.set(f"Le fichier sera enregistré dans {path}")
+        stringVarPath.set(f"Le fichier sera enregistré dans {path}")
 
 
 def update_preview(*args, **kwargs):
     """ fonction appelée lors de la modification du champ d'entré """
+    # global label_thumbnail  # necessaire pour afficher l'image
+
     url = saisieVar.get()
 
     # on vérifie si le string dans le champ correspond a l'url du video yt
     try:
         yt = YouTube(url)
+        # on essaye de recup le titre car l'objet youtube ne leve pas d'erreur
+        # si l'url resssemble a un url yt alors que le lien est faux
         title = yt.title
+        thumbnail_url = yt.thumbnail_url.replace("sddefault", "mqdefault")
 
     except (exceptions.RegexMatchError, exceptions.VideoUnavailable):
         # si l'url n'exite pas on desactive le bouton
@@ -38,7 +45,16 @@ def update_preview(*args, **kwargs):
 
     # on active le bouton "telecharger"
     ButtonDownload['state'] = "normal"
-    print(f"url valide video : {yt.title}")
+    print(f"url valide video : {title}, {thumbnail_url}")
+
+    stringVarVideoTitle.set(title)
+    stringVarVideoChannel.set(yt.author)
+
+    raw_data = urllib.request.urlopen(thumbnail_url).read()
+    new_thumbnail = ImageTk.PhotoImage(Image.open(io.BytesIO(raw_data)))
+
+    label_thumbnail.configure(image=new_thumbnail)
+    label_thumbnail.image = new_thumbnail
 
     # on creer les choix de qualité
     varRadioButton.set(0)  # default value
@@ -69,67 +85,67 @@ def download():
         # on supprime les caractere speciaux
         title = re.sub(r"[^a-zA-Z0-9]+", '_', yt.title)
         stream.download(output_path=path,
-                        filename=f"{title}_{stream.resolution if stream.abr is None else stream.abr}.{extensions[stream.type]}")
+                        filename=f"{title}_{stream.resolution if stream.abr is None else stream.abr}\
+                                    .{extensions[stream.type]}")
         messagebox.showinfo(APP_NAME, "Téléchargement en réussi")
 
 
-# fenetre
-fenetre1 = Tk()
-fenetre1.title(APP_NAME)
-fenetre1.iconbitmap("assets/YouTube.ico")
-
-fenetre1.config(bg=COLOR_BG_FENETRE)
-
-# fenetre1.geometry("650x300")
-fenetre1.resizable(width=0, height=0)
-f1 = Frame(fenetre1, bd=5)
-f1.config(bg="pink")
-f1.pack(pady=25, padx=25)
-
-cadre1 = Frame(f1, bd=5)
-cadre1.config(bg="green")
-cadre1.pack()
-
-cadre2 = Frame(f1, bd=5)
-cadre2.config(bg=COLOR_BG_CADRE)
-cadre2.pack()
-
-cadre3 = Frame(f1, bd=5)
-cadre3.config(bg="blue")
-cadre3.pack()
+fenetre = Tk()
+fenetre.title(APP_NAME)
+# fenetre.geometry("650x300")
+fenetre.iconbitmap("assets/YouTube.ico")
+fenetre.resizable(width=0, height=0)
+fenetre.config(bg=COLOR_BG_FENETRE)
 
 texteTelechargement = Label(
-    cadre1, text="Collez le lien de la vidéo puis choisissez le mode de téléchargement")
+    fenetre, text="Collez le lien de la vidéo puis choisissez le mode de téléchargement")
 texteTelechargement.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
 texteTelechargement.pack()
 
-maLegende = Label(cadre2, text='URL : ')
+maLegende = Label(fenetre, text='URL : ')
 maLegende.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
-maLegende.pack(padx=5, pady=5, side=LEFT)
+maLegende.pack(padx=5, pady=5)
 
 saisieVar = StringVar()
-saisie = Entry(cadre2, textvariable=saisieVar)
+saisie = Entry(fenetre, textvariable=saisieVar)
 saisieVar.trace("w", update_preview)
 saisie.pack(padx=5, pady=5)
 
+frameVideoInfo = Frame(fenetre)
+frameVideoInfo.pack()
+
+thumbnail = ImageTk.PhotoImage(file="assets/nyan-cat.gif")
+label_thumbnail = Label(frameVideoInfo, image=thumbnail)
+label_thumbnail.grid(row=0, column=0, rowspan=6)
+
+stringVarVideoTitle = StringVar()
+labelVideoTitle = Label(frameVideoInfo, textvariable=stringVarVideoTitle, font=("Arial Black", 16))
+labelVideoTitle.grid(row=0, column=1, sticky="w")
+stringVarVideoTitle.set("selectionner un url valide")
+
+stringVarVideoChannel = StringVar()
+labelVideoChannel = Label(frameVideoInfo, textvariable=stringVarVideoChannel)
+labelVideoChannel.grid(row=1, column=1, sticky="w")
+stringVarVideoChannel.set("le vide")
+
 labelFrameQualities = LabelFrame(
-    cadre3, text="Choisir la qualité", padx=20, pady=20)
+    fenetre, text="Choisir la qualité", padx=20, pady=20)
 labelFrameQualities.pack(fill="both", expand="yes")
 
 varRadioButton = StringVar()
 
-ButtonDownload = Button(cadre3, text="Télécharger !!!",
+ButtonDownload = Button(fenetre, text="Télécharger !!!",
                         state="disable", command=download)
 ButtonDownload.pack()
 
-var = StringVar()
-defaultPath = Label(cadre3, textvariable=var)
-defaultPath.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
-defaultPath.pack(pady=5)
-var.set(f"Le fichier sera enregistré dans {path}")
+stringVarPath = StringVar()
+labelSavePath = Label(fenetre, textvariable=stringVarPath)
+labelSavePath.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
+labelSavePath.pack(pady=5)
+stringVarPath.set(f"Le fichier sera enregistré dans {path}")
 
-buttonEditPathFile = Button(cadre3, text="Changer l'emplacement du fichier", command=edit_path,
+buttonEditPathFile = Button(fenetre, text="Changer l'emplacement du fichier", command=edit_path,
                             bg=COLOR_BG_BOUTONS, fg="white")
 buttonEditPathFile.pack()
 
-f1.mainloop()
+fenetre.mainloop()
