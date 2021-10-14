@@ -47,12 +47,13 @@ def update_preview(*args, **kwargs):
     ButtonDownload['state'] = "normal"
     print(f"url valide video : {title}, {thumbnail_url}")
 
+    # on met a jour le titre et le nom de chaine
     stringVarVideoTitle.set(title)
     stringVarVideoChannel.set(yt.author)
 
+    # on met a jour la minia
     raw_data = urllib.request.urlopen(thumbnail_url).read()
     new_thumbnail = ImageTk.PhotoImage(Image.open(io.BytesIO(raw_data)))
-
     label_thumbnail.configure(image=new_thumbnail)
     label_thumbnail.image = new_thumbnail
 
