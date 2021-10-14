@@ -4,16 +4,14 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 
 from pytube import YouTube, exceptions
-#from fonctions import titre
+# from fonctions import titre
 from settings import COLOR_BG_CADRE, COLOR_BG_FENETRE, COLOR_BG_BOUTONS, COLOR_TEXT_BOUTONS, APP_NAME, URL_TEST
-
 
 path = str(Path.home() / "Downloads")
 
-# definir là où la vidéo sera enregistrer
-
 
 def edit_path():
+    """modifie l'emplacement de sauvegarde du fichier"""
     global path
     new_path = filedialog.askdirectory(initialdir=path)
     if new_path != "":
@@ -21,23 +19,28 @@ def edit_path():
         var.set(f"Le fichier sera enregistré dans {path}")
 
 
-
 def update_preview(*args, **kwargs):
+    """ fonction appelée lors de la modification du champ d'entré """
     url = saisieVar.get()
 
+    # on vérifie si le string dans le champ correspond a l'url du video yt
     try:
         yt = YouTube(url)
-        yt.title
+        title = yt.title
 
     except (exceptions.RegexMatchError, exceptions.VideoUnavailable):
+        # si l'url n'exite pas on desactive le bouton
+        # et on supprime les anciennes propositions de telechargement
         ButtonDownload['state'] = "disable"
         for widget in labelFrameQualities.winfo_children():
             widget.destroy()
         return
 
+    # on active le bouton "telecharger"
     ButtonDownload['state'] = "normal"
     print(f"url valide video : {yt.title}")
 
+    # on creer les choix de qualité
     varRadioButton.set(0)  # default value
     for i in yt.streams.filter(adaptive=True):
         if i.mime_type == "audio/webm":
@@ -51,6 +54,7 @@ def update_preview(*args, **kwargs):
 
 
 def download():
+    """ fonction appelée lors du click sur le bouton telecharger """
     url = saisie.get()
 
     if url == "":
@@ -108,15 +112,9 @@ saisie = Entry(cadre2, textvariable=saisieVar)
 saisieVar.trace("w", update_preview)
 saisie.pack(padx=5, pady=5)
 
-
 labelFrameQualities = LabelFrame(
     cadre3, text="Choisir la qualité", padx=20, pady=20)
 labelFrameQualities.pack(fill="both", expand="yes")
-
-
-
-
-
 
 varRadioButton = StringVar()
 
@@ -130,12 +128,8 @@ defaultPath.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
 defaultPath.pack(pady=5)
 var.set(f"Le fichier sera enregistré dans {path}")
 
-
-
-
 buttonEditPathFile = Button(cadre3, text="Changer l'emplacement du fichier", command=edit_path,
                             bg=COLOR_BG_BOUTONS, fg="white")
 buttonEditPathFile.pack()
-
 
 f1.mainloop()
