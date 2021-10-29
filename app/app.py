@@ -93,7 +93,7 @@ def download():
 
 fenetre = Tk()
 fenetre.title(APP_NAME)
-# fenetre.geometry("650x300")
+fenetre.geometry("1050x450")
 fenetre.iconbitmap("assets/YouTube.ico")
 fenetre.resizable(width=0, height=0)
 fenetre.config(bg=COLOR_BG_FENETRE)
@@ -101,7 +101,7 @@ fenetre.config(bg=COLOR_BG_FENETRE)
 texteTelechargement = Label(
     fenetre, text="Collez le lien de la vidéo puis choisissez le mode de téléchargement")
 texteTelechargement.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
-texteTelechargement.pack()
+texteTelechargement.pack(pady = 5)
 
 maLegende = Label(fenetre, text='URL : ')
 maLegende.config(bg=COLOR_BG_BOUTONS, fg=COLOR_TEXT_BOUTONS)
@@ -110,28 +110,28 @@ maLegende.pack(padx=5, pady=5)
 saisieVar = StringVar()
 saisie = Entry(fenetre, textvariable=saisieVar)
 saisieVar.trace("w", update_preview)
-saisie.pack(padx=5, pady=5)
+saisie.pack(padx=5, pady = 5)
 
 frameVideoInfo = Frame(fenetre)
 frameVideoInfo.pack()
 
-thumbnail = ImageTk.PhotoImage(file="assets/nyan-cat.gif")
+thumbnail = ImageTk.PhotoImage(file="assets/pixel.png")
 label_thumbnail = Label(frameVideoInfo, image=thumbnail)
 label_thumbnail.grid(row=0, column=0, rowspan=6)
 
 stringVarVideoTitle = StringVar()
-labelVideoTitle = Label(frameVideoInfo, textvariable=stringVarVideoTitle, font=("Arial Black", 16))
+labelVideoTitle = Label(frameVideoInfo, textvariable=stringVarVideoTitle, font=("Arial Black", 13))
 labelVideoTitle.grid(row=0, column=1, sticky="w")
 stringVarVideoTitle.set("selectionner un url valide")
 
 stringVarVideoChannel = StringVar()
 labelVideoChannel = Label(frameVideoInfo, textvariable=stringVarVideoChannel)
 labelVideoChannel.grid(row=1, column=1, sticky="w")
-stringVarVideoChannel.set("le vide")
+stringVarVideoChannel.set("")
 
 labelFrameQualities = LabelFrame(
     fenetre, text="Choisir la qualité", padx=20, pady=20)
-labelFrameQualities.pack(fill="both", expand="yes")
+labelFrameQualities.pack(fill="both", expand="yes", padx = 10, pady = 5)
 
 varRadioButton = StringVar()
 
@@ -147,6 +147,6 @@ stringVarPath.set(f"Le fichier sera enregistré dans {path}")
 
 buttonEditPathFile = Button(fenetre, text="Changer l'emplacement du fichier", command=edit_path,
                             bg=COLOR_BG_BOUTONS, fg="white")
-buttonEditPathFile.pack()
+buttonEditPathFile.pack(pady = 5)
 
 fenetre.mainloop()
